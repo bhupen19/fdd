@@ -1,0 +1,40 @@
+apiVersion: apps/v1 
+kind: Deployment 
+metadata: 
+  name: stdntmgmt-webapp 
+  labels:
+    app: stdntmgmt-webapp
+spec: 
+  replicas: 1 
+  selector: 
+    matchLabels: 
+      app: stdntmgmt-webapp
+  
+  template: 
+    metadata:
+      name: stdntmgmt-webapp   
+      labels: 
+        app: stdntmgmt-webapp 
+    spec: 
+        
+        containers:
+          - name: stdntmgmt-webapp  
+            image: bhupen19/app
+            ports:
+              - containerPort: 8080
+                name: mysql 
+            env:
+              - name: DB_HOSTNAME
+                value: 192.168.145.247
+              - name: DB_PORT
+                value: "3306"
+              - name: DB_NAME 
+                value: "webappdb"
+              - name: DB_USERNAME
+                value: "root"
+              - name: DB_PASSWORD
+                valueFrom:
+                  secretKeyRef:
+                
+                    name: my-db-secret 
+                    key: db-password
